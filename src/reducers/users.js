@@ -7,7 +7,25 @@ const initialState = {
       lastName: 'Prattchett',
       age: '47',
       profession: 'Writer'
-    }
+    },
+    {
+      firstName: 'John',
+      lastName: 'Snow',
+      age: '41',
+      profession: 'Blader'
+    },
+    {
+      firstName: 'Adam',
+      lastName: 'Bewert',
+      age: '47',
+      profession: 'Writer'
+    },
+    {
+      firstName: 'Block',
+      lastName: 'Adwert',
+      age: '47',
+      profession: 'Writer'
+    },
   ],
   managed: null
 }
