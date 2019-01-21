@@ -1,4 +1,4 @@
-import * as types from './../contants/action-types/users'
+import * as types from './../contants/actionTypes/users'
 
 export const createUser = (user) => ({
   type: types.CREATE_USER,
@@ -11,6 +11,6 @@ export const updateUser = (user) => ({
 })
 
 export const deleteUser = (user) => ({
-  type: types.UPDATE_USER,
+  type: types.DELETE_USER,
   payload: user
 })

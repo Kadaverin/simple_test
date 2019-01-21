@@ -1,5 +1,14 @@
 import { applyMiddleware, compose, createStore } from 'redux'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage' 
 import rootReducer from './../reducers'
+
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 function configureStore () {
   const enhancers = [
@@ -17,13 +26,15 @@ function configureStore () {
   )
 
   const store = createStore(
-      rootReducer,
+      persistedReducer,
       composedEnhancers
   )
 
-  return store
+  let persistor = persistStore(store)
+
+  return { store, persistor }
 }
 
-const store = configureStore()
+const { store, persistor } = configureStore()
 
-export default store
+export { store, persistor }

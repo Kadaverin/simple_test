@@ -21,7 +21,6 @@ class SmartTable extends Component {
     super(props);
     this.state = {
       data: props.data,
-      filter: (props.filters || [])[0],
       filterValue: ''
     };
   }
@@ -59,9 +58,11 @@ class SmartTable extends Component {
   }
 
   processedData = () => {
-    const { filter, data, filterValue } = this.state
-    if (!filter) return data 
+    const { data, filterValue } = this.state
+    const { filter } = this.props
 
+    if (!filter) return data 
+    
     let filterStategy = filter.filterFunc || defaultFilterFunc
 
     const filteredData = data.filter(
@@ -76,29 +77,20 @@ class SmartTable extends Component {
       columns,
       classes,
       title,
-      filters,
+      filter,
       extra,
     } = this.props;
-
-    const { filter, } = this.state;
 
     return (
       <Fragment>
         <TableTitle
           handleSearchInput={ this.handleSearchInput }
-          activeFilter={ filter }
-          filters={ filters } 
+          filter={ filter } 
           title={ title }
           extra={ extra }
         /> 
-        <Table
-          className={ classes.table }
-          selectable={ false }
-        >
-          <TableHead
-            displaySelectAll={ false }
-            adjustForCheckbox={ false }
-          >
+        <Table className={ classes.table } >
+          <TableHead>
             <TableRow>
               { columns && columns.map((column, index) => (
                 <TableCell 
@@ -120,12 +112,7 @@ class SmartTable extends Component {
               )) }
             </TableRow>
           </TableHead>
-          <TableBody
-            showRowHover
-            stripedRows
-            displayRowCheckbox={ false }
-            preScanRows
-          >
+          <TableBody>
             {
               this.processedData().map((row, index) => (
                 <SmartTableRow
@@ -149,9 +136,21 @@ SmartTable.defaultProps = {
 }
 
 SmartTable.propTypes = {
-  columns: PropTypes.array.isRequired,
+  columns: PropTypes.arrayOf( PropTypes.shape({
+    name: PropTypes.string, // column dispaly name
+    dataKey: PropTypes.string, // key for accessing data from data array
+    render: PropTypes.string, // custom render cell function,
+    sortable: PropTypes.bool,
+  })),
+  filter: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    target: PropTypes.string, // key for accesing filter target value
+    getTarget: PropTypes.func, // func that return filter target value
+    placeholder: PropTypes.string,
+  }),
   data: PropTypes.array,
-  isLoading: PropTypes.bool,
+  extra: PropTypes.node,
+  title: PropTypes.node,
 };
 
 export default withStyles(styles)(SmartTable);

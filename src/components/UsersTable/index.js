@@ -18,19 +18,19 @@ const styles = theme => ({
 });
 
 
-export const UsersTable = ({ users, classes, onCreateUserClick, onEditCLick, onDeleteCLick }) => (
+export const UsersTable = ({ users, classes, onCreateClick, onEditClick, onDeleteClick }) => (
   <Paper className={ classes.tableWrapper }>
     <SmartTable 
       data={ users }
       title='Users list'
-      filters={[
+      filter={
         {
           name: 'full name',
           getTarget: (user) => fullNameOf(user),
         }
-      ]}
+      }
       extra={
-        <Button onClick={onCreateUserClick}> Create User </Button>
+        <Button onClick={onCreateClick}> Create User </Button>
       }
       columns={[
         {
@@ -57,11 +57,11 @@ export const UsersTable = ({ users, classes, onCreateUserClick, onEditCLick, onD
           render: (user) => (
             <Fragment>
               <IconButton 
-                aria-label="Edit" onCLick={ onEditCLick(user) }>
+                aria-label="Edit" onClick={ onEditClick(user) }>
                 <EditIcon fontSize="small" />
               </IconButton>
 
-              <IconButton aria-label="Delete" onClick={ onDeleteCLick(user) }>
+              <IconButton aria-label="Delete" onClick={ onDeleteClick(user) }>
                 <DeleteIcon fontSize="small" />
               </IconButton>
             </Fragment>

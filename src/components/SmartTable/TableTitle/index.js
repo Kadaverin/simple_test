@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
 import {
   Grid,
   Toolbar,
@@ -10,15 +11,15 @@ import styles from './styles'
 import SearchInput from './../SearchInput'
 
 const TableTitle = ({ 
-  filters, title, extra, classes, handleSearchInput, activeFilter 
+  filter, title, extra, classes, handleSearchInput, 
 }) => {
   
-  if(!title && !filters && !extra) return null
+  if(!title && !filter && !extra) return null
   
   let filtersSection = null
 
-  if(activeFilter) {
-    const placeholder = activeFilter.placeholder || `Search by ${ activeFilter.name }`
+  if(filter) {
+    const placeholder = filter.placeholder || `Search by ${ filter.name }`
 
     filtersSection = (
       <Fragment>
@@ -51,6 +52,15 @@ const TableTitle = ({
       </Grid> 
     </Toolbar>
   )
+}
+
+TableTitle.propTypes = {
+  filter: PropTypes.object,
+  title: PropTypes.node,
+  extra: PropTypes.node,
+  classes: PropTypes.object,
+  handleSearchInput: PropTypes.func.isRequired,
+  activeFilter: PropTypes.object
 }
 
 export default withStyles(styles)(TableTitle)
